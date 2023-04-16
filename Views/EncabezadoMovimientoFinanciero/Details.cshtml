@@ -1,0 +1,107 @@
+@model ManejadorPresupuesto2.Models.EncabezadoMovimientoFinanciero
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>EncabezadoMovimientoFinanciero</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.FechaMovimiento)
+        </dt>        
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>        
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>       
+    </dl>
+    <dl class="row">        
+        <dd class = "col-sm-4">
+            @Html.DisplayFor(model => model.FechaMovimiento)            
+        </dd>
+        <dd class = "col-sm-4">
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+        <dd class = "col-sm-4">            
+            @Html.DisplayFor(model => model.Estado.Id)
+        </dd>
+    </dl>    
+</div>
+
+<table class="table table-dark">
+  <thead>
+    <tr>      
+      <th scope="col">Gasto  <a href="../../DetalleMovimientoGasto/Create/@Model.Id">Create New</a></th>
+      <th scope="col">Ingreso <a href="../../DetalleMovimientoIngreso/Create/@Model.Id">Create New</a></th>      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.DetalleMovimientoGastos.FirstOrDefault().ItemCategoria.NombreItem)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.DetalleMovimientoGastos.FirstOrDefault().Descripcion)</th>      
+                        <th scope="col">@Html.DisplayNameFor(model => model.DetalleMovimientoGastos.FirstOrDefault().ValorMovimiento)</th>      
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var gasto in Model.DetalleMovimientoGastos)
+                {           
+                    <tr>
+                        <td><a asp-action="Edit" asp-controller="DetalleMovimientoGasto" asp-route-id="@gasto.Id">Edit</a></td>
+                        <td>@gasto.ItemCategoria.NombreItem</td>
+                        <td> @gasto.Descripcion</td>
+                        <td> @string.Format("{0:C}", gasto.ValorMovimiento)</td>                
+                    </tr>               
+                }     
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td>@string.Format("{0:C}", Model.DetalleMovimientoGastos.Sum(x=>x.ValorMovimiento))</td> 
+                </tr>      
+                </tbody>
+            </table>
+        </td>
+        <td>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.DetalleMovimientoGastos.FirstOrDefault().ItemCategoria.NombreItem)</th>                        
+                        <th scope="col">@Html.DisplayNameFor(model => model.DetalleMovimientoGastos.FirstOrDefault().ValorMovimiento)</th>      
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ingreso in Model.DetalleMovimientoIngresos)
+                {           
+                    <tr>
+                        <td><a asp-action="Edit" asp-controller="DetalleMovimientoIngreso" asp-route-id="@ingreso.Id">Edit</a></td>
+                        <td>@ingreso.ItemCategoria.NombreItem</td>                        
+                        <td>@string.Format("{0:C}", @ingreso.ValorMovimiento)</td>                
+                    </tr>               
+                }   
+                 <tr>
+                        <td></td>
+                        <td>Total</td>                        
+                        <td>@string.Format("{0:C}", Model.DetalleMovimientoIngresos.Sum(x=>x.ValorMovimiento))</td>                
+                    </tr>         
+                </tbody>
+            </table>
+        </td>        
+    </tr>       
+  </tbody>
+</table>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

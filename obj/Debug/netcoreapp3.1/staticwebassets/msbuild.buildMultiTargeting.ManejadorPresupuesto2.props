@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ManejadorPresupuesto2.props" />
+</Project>
